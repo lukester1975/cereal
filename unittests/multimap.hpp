@@ -28,6 +28,17 @@
 #define CEREAL_TEST_MULTIMAP_H_
 #include "common.hpp"
 
+template<typename A, typename B>
+void check_equal(const A &a, const B &b)
+{
+  CHECK_EQ(a.size(), b.size());
+
+  for (auto a_iter = a.begin(), b_iter = b.begin(); a_iter != a.end(); ++a_iter, ++b_iter)
+  {
+    CHECK_EQ(*a_iter, *b_iter);
+  }
+}
+
 template <class IArchive, class OArchive> inline
 void test_multimap()
 {
@@ -104,23 +115,11 @@ void test_multimap()
       iar(i_esplmultimap);
     }
 
-#define MULTIMAP_CHECK(InMap, OutMap) \
-    for( auto & pair : OutMap ) \
-    { \
-      auto const count = InMap.count( pair.first ); \
-      CHECK_EQ( count, OutMap.count( pair.first ) ); \
-      auto find = InMap.find( pair.first ); \
-      bool found = false; \
-      for( size_t i = 0; i < count; ++i, ++find ) \
-        found |= find->second == pair.second; \
-      CHECK_UNARY( found ); \
-    }
-
-    MULTIMAP_CHECK( i_podmultimap, o_podmultimap );
-    MULTIMAP_CHECK( i_isermultimap, o_isermultimap );
-    MULTIMAP_CHECK( i_isplmultimap, o_isplmultimap );
-    MULTIMAP_CHECK( i_esermultimap, o_esermultimap );
-    MULTIMAP_CHECK( i_esplmultimap, o_esplmultimap );
+    check_equal(i_podmultimap, o_podmultimap);
+    check_equal(i_isermultimap, o_isermultimap);
+    check_equal(i_isplmultimap, o_isplmultimap);
+    check_equal(i_esermultimap, o_esermultimap);
+    check_equal(i_esplmultimap, o_esplmultimap);
 
 #undef MULTIMAP_CHECK
   }

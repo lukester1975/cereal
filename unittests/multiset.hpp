@@ -28,6 +28,17 @@
 #define CEREAL_TEST_MULTISET_H_
 #include "common.hpp"
 
+template<typename A, typename B>
+void check_equal(const A &a, const B &b)
+{
+  CHECK_EQ(a.size(), b.size());
+
+  for (auto a_iter = a.begin(), b_iter = b.begin(); a_iter != a.end(); ++a_iter, ++b_iter)
+  {
+    CHECK_EQ(*a_iter, *b_iter);
+  }
+}
+
 template <class IArchive, class OArchive> inline
 void test_multiset()
 {
@@ -104,30 +115,11 @@ void test_multiset()
       iar(i_esplmultiset);
     }
 
-    for(auto const & p : i_podmultiset)
-    {
-      CHECK_EQ(o_podmultiset.count(p), i_podmultiset.count(p));
-    }
-
-    for(auto const & p : i_isermultiset)
-    {
-      CHECK_EQ(o_isermultiset.count(p), i_isermultiset.count(p));
-    }
-
-    for(auto const & p : i_isplmultiset)
-    {
-      CHECK_EQ(o_isplmultiset.count(p), i_isplmultiset.count(p));
-    }
-
-    for(auto const & p : i_esermultiset)
-    {
-      CHECK_EQ(o_esermultiset.count(p), i_esermultiset.count(p));
-    }
-
-    for(auto const & p : i_esplmultiset)
-    {
-      CHECK_EQ(o_esplmultiset.count(p), i_esplmultiset.count(p));
-    }
+    check_equal(o_podmultiset, i_podmultiset);
+    check_equal(o_isermultiset, i_isermultiset);
+    check_equal(o_isplmultiset, i_isplmultiset);
+    check_equal(o_esermultiset, i_esermultiset);
+    check_equal(o_esplmultiset, i_esplmultiset);
   }
 }
 

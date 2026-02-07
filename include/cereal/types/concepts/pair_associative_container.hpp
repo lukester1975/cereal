@@ -66,6 +66,9 @@ namespace cereal
       #else // NOT CEREAL_OLDER_GCC
       hint = map.emplace_hint( hint, std::move( key ), std::move( value ) );
       #endif // NOT CEREAL_OLDER_GCC
+
+      // For multimap. Ensure order is maintained.
+      ++hint;
     }
   }
 } // namespace cereal

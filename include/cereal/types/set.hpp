@@ -67,6 +67,9 @@ namespace cereal
         #else // NOT CEREAL_OLDER_GCC
         hint = set.emplace_hint( hint, std::move( key ) );
         #endif // NOT CEREAL_OLDER_GCC
+
+        // For multiset. Ensure order is maintained.
+        ++hint;
       }
     }
   }
